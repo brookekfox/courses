@@ -1,0 +1,129 @@
+enter mysql shell
+mysql -u root -p
+
+
+MYSQL
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'yournewpassword'
+HELP;
+SHOW DATABASES;
+SELECT @@hostname;
+CREATE DATABASE <name>;
+DROP DATABASE <name>;
+USE <name>;
+SELECT database();
+CREATE TABLE <table_name> (<column_name> <data_type>, <column_name> <data_type>);
+  - <table_name> should be plural
+  - can specify a column as NOT NULL - ex create table cats(name varchar(100) not null, age int);
+  - can specify a default value for a column - ex create table cats(name varchar(100) default 'cat', age int);
+  ex CREATE TABLE cats (name VARCHAR(100), age INT);
+  ex CREATE TABLE cats (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(100), age INT, PRIMARY KEY (id));
+      +-------+--------------+------+-----+---------+----------------+
+      | Field | Type         | Null | Key | Default | Extra          |
+      +-------+--------------+------+-----+---------+----------------+
+      | id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+      | name  | varchar(100) | YES  |     | NULL    |                |
+      | age   | int(11)      | YES  |     | NULL    |                |
+      +-------+--------------+------+-----+---------+----------------+
+  ex create table employees (id int not null auto_increment, last_name varchar(100) not null, first_name varchar(100) not null, middle_name varchar(100), age int not null, current_status varchar(100) not null default 'employed', primary key (id));
+SHOW TABLES;
+SHOW COLUMNS FROM <table_name>;
+DESC <table_name>;
+INSERT INTO table_name(column_name) VALUES (data);
+  ex INSERT INTO dogs (name, age) VALUES ('lizzie', 2);
+  ex INSERT INTO dogs (name, age) VALUES ('tina', 2), ('lizzie', 2);
+SELECT * FROM <table_name>;
+SELECT <column_name>, <column_name> FROM <table_name>;
+  ex SELECT * FROM cats WHERE age=4;
+  ex SELECT * FROM cats WHERE id=age;
+  ex SELECT name AS 'cat name', breed AS 'kitty breed' FROM cats;
+SHOW WARNINGS;
+
+a primary key is a unique identifier on a row eg id
+
+-- create database book_shop;
+-- use book_shop;
+-- source book_data.sql
+SELECT author_fname AS first, author_lname AS last, CONCAT(author_fname, ' ', author_lname) AS full FROM books;
+SELECT DISTINCT CONCAT(author_fname,' ', author_lname) FROM books;
+SELECT DISTINCT author_fname, author_lname FROM books;
+SELECT title, pages FROM books ORDER BY released_year;
+SELECT author_fname, author_lname FROM books ORDER BY author_lname, author_fname;
+SELECT title FROM books LIMIT 5; // returns first 5 books
+SELECT title FROM books LIMIT 15, 50; // returns next 50 books, starting at book 15
+SELECT title FROM books WHERE title LIKE 'harry potter%';
+SELECT title FROM books WHERE title LIKE '%or%';
+SELECT title FROM books WHERE author_lname LIKE '%s';
+SELECT title FROM books WHERE title LIKE '%the%';
+SELECT title FROM books WHERE title NOT LIKE 'The%'; // titles that don't start with The
+SELECT title FROM books WHERE stock_quantity LIKE '____'; // is four chars long
+SELECT phone_number FROM whatever WHERE phone_number LIKE '(___)___-____';
+SELECT title, pages FROM books ORDER BY pages DESC LIMIT 1;
+SELECT CONCAT(title, ' - ', released_year) AS summary FROM books ORDER BY stock_quantity ASC LIMIT 3;
+SELECT COUNT(*) FROM books WHERE stock_quantity LIKE '____';
+SELECT COUNT(DISTINCT author_lname) FROM books;
+SELECT author_fname, author_lname, COUNT(*) FROM books GROUP BY author_lname, author_fname;
+SELECT author_fname, author_lname, Min(released_year) FROM books GROUP  BY author_lname, author_fname;
+SELECT author_fname, author_lname, Max(pages) FROM books GROUP BY author_lname, author_fname;
+SELECT author_fname, author_lname, Sum(pages) AS summed_pages FROM books GROUP BY author_lname, author_fname ORDER BY summed_pages DESC;
+SELECT author_fname, author_lname, AVG(pages) FROM books GROUP BY author_lname, author_fname;
+SELECT title, author_lname, released_year FROM books WHERE author_lname='Eggers' AND released_year > 2010;
+SELECT title, released_year,
+  CASE
+    WHEN released_year >= 2000 THEN 'Modern Lit'
+    ELSE '20th Century Lit'
+  END AS GENRE
+FROM books;
+SELECT title, stock_quantity,
+  CASE
+    WHEN stock_quantity <= 50 THEN '*'
+    WHEN stock_quantity <= 100 THEN '**'
+    ELSE '***'
+  END AS STOCK
+FROM books;
+
+
+CURDATE(), CURTIME(), NOW()
+SELECT DATE_FORMAT(birthdt, 'Was born on a %W') FROM people;
+SELECT DATE_FORMAT(birthdt, '%m/%d/%Y') FROM people;
+SELECT DATE_FORMAT(birthdt, '%m/%d/%Y at %h:%i') FROM people;
+SELECT name, birthdt FROM people WHERE birthdt BETWEEN CAST('1980-01-01' AS DATETIME) AND CAST('2000-01-01' AS DATETIME);
+
+CREATE TABLE comments (content VARCHAR(100), changed_at TIMESTAMP DEFAULT NOW() ON UPDATE NOW());
+INSERT INTO comments (content) VALUES('I LIKE CATS AND DOGS');
+
+
+
+
+Numeric Types
+INT
+SMALLINT
+TINYINT
+MEDIUMINT
+BIGINT
+DECIMAL
+NUMERIC
+FLOAT
+DOUBLE
+BIT
+
+String Types
+CHAR
+VARCHAR
+BINARY
+VARBINARY
+BLOB
+TINYBLOB
+MEDIUMBLOB
+LONGBLOB
+TEXT
+TINYTEXT
+MEDIUMTEXT
+LONGTEXT
+ENUM
+
+Date Types
+DATE
+DATETIME
+TIMESTAMP
+TIME
+YEAR
