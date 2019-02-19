@@ -37,3 +37,56 @@ VALUES
 ,('Harry Potter and the Half-Blood Prince', 'J.K.', 'Rowling', 2006, 1000, 367)
 ,('Harry Potter and the Deathly Hallows', 'J.K.', 'Rowling', 2007, 1000, 367)
 ;
+
+
+-- create database book_shop;
+-- use book_shop;
+-- source book_data.sql
+
+-- SELECT author_fname AS first, author_lname AS last, CONCAT(author_fname, ' ', author_lname) AS full FROM books;
+-- SELECT DISTINCT CONCAT(author_fname,' ', author_lname) FROM books;
+-- SELECT DISTINCT author_fname, author_lname FROM books;
+-- SELECT title, pages FROM books ORDER BY released_year;
+-- SELECT author_fname, author_lname FROM books ORDER BY author_lname, author_fname;
+-- SELECT title FROM books LIMIT 5; // returns first 5 books
+-- SELECT title FROM books LIMIT 15, 50; // returns next 50 books, starting at book 15
+-- SELECT title FROM books WHERE title LIKE 'harry potter%';
+-- SELECT title FROM books WHERE title LIKE '%or%';
+-- SELECT title FROM books WHERE author_lname LIKE '%s';
+-- SELECT title FROM books WHERE title LIKE '%the%';
+-- SELECT title FROM books WHERE title NOT LIKE 'The%'; // titles that don't start with The
+-- SELECT title FROM books WHERE stock_quantity LIKE '____'; // is four chars long
+-- SELECT phone_number FROM whatever WHERE phone_number LIKE '(___)___-____';
+-- SELECT title, pages FROM books ORDER BY pages DESC LIMIT 1;
+-- SELECT CONCAT(title, ' - ', released_year) AS summary FROM books ORDER BY stock_quantity ASC LIMIT 3;
+-- SELECT COUNT(*) FROM books WHERE stock_quantity LIKE '____';
+-- SELECT COUNT(DISTINCT author_lname) FROM books;
+-- SELECT author_fname, author_lname, COUNT(*) FROM books GROUP BY author_lname, author_fname;
+-- SELECT author_fname, author_lname, Min(released_year) FROM books GROUP  BY author_lname, author_fname;
+-- SELECT author_fname, author_lname, Max(pages) FROM books GROUP BY author_lname, author_fname;
+-- SELECT author_fname, author_lname, Sum(pages) AS summed_pages FROM books GROUP BY author_lname, author_fname ORDER BY summed_pages DESC;
+-- SELECT author_fname, author_lname, AVG(pages) FROM books GROUP BY author_lname, author_fname;
+-- SELECT title, author_lname, released_year FROM books WHERE author_lname='Eggers' AND released_year > 2010;
+-- SELECT title, released_year,
+--   CASE
+--     WHEN released_year >= 2000 THEN 'Modern Lit'
+--     ELSE '20th Century Lit'
+--   END AS GENRE
+-- FROM books;
+-- SELECT title, stock_quantity,
+--   CASE
+--     WHEN stock_quantity <= 50 THEN '*'
+--     WHEN stock_quantity <= 100 THEN '**'
+--     ELSE '***'
+--   END AS STOCK
+-- FROM books;
+
+
+-- CURDATE(), CURTIME(), NOW()
+-- SELECT DATE_FORMAT(birthdt, 'Was born on a %W') FROM people;
+-- SELECT DATE_FORMAT(birthdt, '%m/%d/%Y') FROM people;
+-- SELECT DATE_FORMAT(birthdt, '%m/%d/%Y at %h:%i') FROM people;
+-- SELECT name, birthdt FROM people WHERE birthdt BETWEEN CAST('1980-01-01' AS DATETIME) AND CAST('2000-01-01' AS DATETIME);
+
+-- CREATE TABLE comments (content VARCHAR(100), changed_at TIMESTAMP DEFAULT NOW() ON UPDATE NOW());
+-- INSERT INTO comments (content) VALUES('I LIKE CATS AND DOGS');
